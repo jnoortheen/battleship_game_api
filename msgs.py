@@ -104,7 +104,7 @@ class GridShot(messages.Message):
 class GridHistory(messages.Message):
     # user name
     user = messages.StringField(1, required=True)
-    shots = messages.MessageField(GridShot, 2, required=True, repeated=True)
+    shots = messages.MessageField(GridShot, 2, repeated=True)
 
 
 class GameHistory(messages.Message):

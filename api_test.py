@@ -103,6 +103,7 @@ class TestBattleShipApi(unittest.TestCase):
         req = api.BattleShipApi.get_user_rankings.remote.request_type()
         resp = btApi.get_user_rankings(req)
         print resp
+
     def testApiShoot(self):
         aGame = self.testApiCreateGame()
         btApi = api.BattleShipApi()
@@ -158,3 +159,7 @@ class TestBattleShipApi(unittest.TestCase):
                                                                 player=msgs.Player.RIGHT)
         resp = btApi.play_a_shot(req)
         self.assertEqual(resp.result, 'SUNK')
+
+        req = api.BattleShipApi.get_game_history.remote.request_type(url_key=aGame.urlsafe_key)
+        resp = btApi.get_game_history(req)
+        print resp
