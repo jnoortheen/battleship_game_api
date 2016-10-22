@@ -105,5 +105,23 @@ class BattleShipApi(remote.Service):
         """
         user = models.User.query(models.User.name == req.user_name).get()
 
+    @endpoints.method(request_message=containers.GetGameReq,
+                      response_message=msgs.StringMessage,
+                      path='game/{url_key}',
+                      name='cancel_a_game',
+                      http_method='DELETE')
+    def cancel_game(self, req):
+        """
+            mark the game as cancelled, further moves on the game can't be done.
+        Args:
+            req (containers.GetGameReq): game key
+        Returns:
+            msgs.StringMessage:
+        """
+        game = models.BattleShip.getByUrlKey(req.url_key)
+        game.cancelled = True
+        game.put()
+        return msgs.StringMessage(msg="Game has been cancelled.")
+
 
 api = endpoints.api_server([BattleShipApi])

@@ -56,6 +56,7 @@ make a shooting at opponents fleet; shots must be fired alternatively one after 
 * returns: the result of the shoot. It would be one of 'HIT', 'MISS', 'SUNK', 'SUNK_ALL' in case of sunk all ships the current player making the guess/shot will become the winner of the game.
 
 ##Typical Usage:
+1. Refer each of the python files suppied with the repo for the module level documentation.
 1. If your app is running on local machine, then you explore the API by http://localhost:<port>/_ah/api/explorer and click 'load unsafe script' on the search field if you are using Chrome.  
 1. create two users using `create_user` API.
 1. create a new Game with these user records.

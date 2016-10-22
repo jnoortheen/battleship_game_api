@@ -102,6 +102,9 @@ class BattleShip(ndb.Model):
             msgs.ShootResp
         """
 
+        if self.cancelled:
+            raise endpoints.ConflictException("Users are not supposed to play a cancelled game.")
+
         if side == 'LEFT':
             grid = self.rightGrid.get()  # type: Grid
             playerGrid = self.leftGrid.get()  # type: Grid

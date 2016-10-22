@@ -97,6 +97,10 @@ class GameFormResp(messages.Message):
     winner = messages.StringField(5)
 
 
+class GameFormRespColl(messages.Message):
+    games = messages.MessageField(GameFormResp, 1, repeated=True)
+
+
 class StringMessage(messages.Message):
     """string message"""
     msg = messages.StringField(1, required=True)
