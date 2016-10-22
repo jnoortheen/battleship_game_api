@@ -48,6 +48,12 @@ get a game details by its unique url_key
 * http_method: **GET**
 * params: url_key of the game that is returned while creating game
 * returns: game details
+###cancel_game:
+mark a game as cancelled as that can't be played no longer
+* path: *game/{url_key}*
+* http_method: **DELETE**
+* params: url_key of the game that is returned while creating game
+* returns: confirmation message
 ###play_a_shot:
 make a shooting at opponents fleet; shots must be fired alternatively one after another player. Otherwise program will raise an conflict error.
 * path: *game/{url_key}*
