@@ -1,5 +1,5 @@
 from google.appengine.ext import ndb
-from . import Grid
+from . import Grid, User
 import msgs
 import utils
 import endpoints
@@ -11,6 +11,10 @@ class BattleShip(ndb.Model):
     # two grids
     leftGrid = ndb.KeyProperty(required=True, kind=Grid)  # type:Grid
     rightGrid = ndb.KeyProperty(required=True, kind=Grid)  # type:Grid
+    # users
+    leftPlayer = ndb.KeyProperty(kind='User', required=True)
+    rightPlayer = ndb.KeyProperty(kind='User', required=True)
+
     # once the game is over, fill up the winner details
     winner = ndb.KeyProperty(kind='User')
     gameOver = ndb.BooleanProperty(default=False)
@@ -55,6 +59,9 @@ class BattleShip(ndb.Model):
             GameFormResp: return newly inserted record's form
         """
 
+        if leftGridArgs.user_name == rightGridArgs.user_name:
+            raise endpoints.BadRequestException("Come on! it is a two player game. Users must be different.")
+
         leftGrid = Grid.create(leftGridArgs.user_name,
                                utils.shipPtToNotation(leftGridArgs.carrier),
                                utils.shipPtToNotation(leftGridArgs.battleship),
@@ -73,9 +80,19 @@ class BattleShip(ndb.Model):
                                 utils.shipPtToNotation(rightGridArgs.submarine1),
                                 utils.shipPtToNotation(rightGridArgs.submarine2))
 
-        game = BattleShip(leftGrid=leftGrid.key, rightGrid=rightGrid.key)
+        game = BattleShip(leftGrid=leftGrid.key, rightGrid=rightGrid.key,
+                          leftPlayer=User.get_by_name(leftGridArgs.user_name).key,
+                          rightPlayer=User.get_by_name(rightGridArgs.user_name).key)
         game.put()
         return game.toForm()
+
+    @classmethod
+    def getUserGames(cls, user_name):
+        user = User.get_by_name(user_name)
+        games = cls.query(cls.gameOver == False, cls.cancelled == False,
+                          ndb.OR(cls.leftPlayer == user.key, cls.rightPlayer == user.key)).fetch()
+        return msgs.GameFormRespColl(
+            games=[game.toForm() for game in games])
 
     def toForm(self):
         """

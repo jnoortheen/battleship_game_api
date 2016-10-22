@@ -12,6 +12,7 @@ from google.appengine.ext import ndb
 
 
 class TestBattleShipApi(unittest.TestCase):
+
     def setUp(self):
         self.tb = testbed.Testbed()
         self.tb.activate()
@@ -39,8 +40,8 @@ class TestBattleShipApi(unittest.TestCase):
         resp = btApi.create_user(req)
         assert resp.msg == "User user_2 created!"
 
-    def testApiCreateGame(self):
-        self.testDbCreateUser()
+    def testApiCreateGame(self, createUser=True):
+        if createUser: self.testDbCreateUser()
         btApi = api.BattleShipApi()
         carrier = msgs.ShipPoint(x=1, y=msgs.Yrange.A)
         battleship = msgs.ShipPoint(x=1, y=msgs.Yrange.B)
@@ -79,6 +80,15 @@ class TestBattleShipApi(unittest.TestCase):
         resp = btApi.get_game(req)
         assert resp.left == 'A0A1A2A3A4|B0B1B2B3|C0C1C2|D0D1|E0E1|F0|G0'
         assert resp.right == 'A0A1A2A3A4|B0B1B2B3|C0C1C2|D0D1|E0E1|F0|G0'
+
+    def testApiGetUserGames(self):
+        self.testApiCreateGame()
+        self.testApiCreateGame(False)
+        self.testApiCreateGame(False)
+        btApi = api.BattleShipApi()
+        req = api.BattleShipApi.get_user_games.remote.request_type(user_name='user_1')
+        resp = btApi.get_user_games(req)
+        print resp
 
     def testApiShoot(self):
         aGame = self.testApiCreateGame()

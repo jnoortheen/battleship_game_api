@@ -91,7 +91,7 @@ class BattleShipApi(remote.Service):
         return game.shoot(str(req.player), (str(req.y) + str(req.x - 1)))
 
     @endpoints.method(request_message=containers.UserGamesReq,
-                      response_message=msgs.,
+                      response_message=msgs.GameFormRespColl,
                       path='user',
                       name='get_user_games',
                       http_method='GET')
@@ -101,9 +101,9 @@ class BattleShipApi(remote.Service):
         Args:
             req (containers.UserGamesReq): contains the user name
         Returns:
-            msgs.:
+            msgs.GameFormRespColl: a list of games detail
         """
-        user = models.User.query(models.User.name == req.user_name).get()
+        return models.BattleShip.getUserGames(req.user_name)
 
     @endpoints.method(request_message=containers.GetGameReq,
                       response_message=msgs.StringMessage,

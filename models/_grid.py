@@ -55,8 +55,7 @@ class Grid(ndb.Model):
             endpoints.ConflictException: when any of the ships position overlaps
         """
 
-        user = User.query(User.name == user_name).get()
-        if not user: raise endpoints.NotFoundException("No user found with name {}".format(user_name))
+        user = User.get_by_name(user_name)
 
         fleet = [utils.getACarrier(carrier),
                  utils.getABattleShip(battleship),
