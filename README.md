@@ -48,6 +48,12 @@ get a game details by its unique url_key
 * http_method: **GET**
 * params: url_key of the game that is returned while creating game
 * returns: game details
+###get_game_history:
+get the game history by its url key
+* path: *game/{url_key}/history*
+* http_method: **GET**
+* params: url_key of the game that is returned while creating game
+* returns: history of shots at both sides
 ###cancel_game:
 mark a game as cancelled as that can't be played no longer
 * path: *game/{url_key}*
@@ -60,6 +66,17 @@ make a shooting at opponents fleet; shots must be fired alternatively one after 
 * http_method: **PUT**
 * params: url_key, player_side, ypoint, xpoint
 * returns: the result of the shoot. It would be one of 'HIT', 'MISS', 'SUNK', 'SUNK_ALL' in case of sunk all ships the current player making the guess/shot will become the winner of the game.
+###get_user_games:
+return the list of details of games that are used by the given player name
+* path: *user*
+* http_method: **GET**
+* params: user_name
+* returns: a list of game forms
+###get_user_rankings:
+return the user matches and wins stats
+* path: *user/all/rank*
+* http_method: **GET**
+* returns: a list of user match stats
 
 ##Typical Usage:
 1. Refer each of the python files suppied with the repo for the module level documentation.
