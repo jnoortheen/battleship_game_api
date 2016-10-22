@@ -73,6 +73,21 @@ class BattleShipApi(remote.Service):
         """
         return models.BattleShip.getByUrlKey(req.url_key).toForm()
 
+    @endpoints.method(request_message=containers.GetGameReq,
+                      response_message=msgs.GameHistory,
+                      path='game/{url_key}/history',
+                      name='get_game_history',
+                      http_method='GET')
+    def get_game_history(self, req):
+        """
+            get the game history by its url key
+        Args:
+            req (containers.GetGameReq):
+        Returns:
+            msgs.GameHistory: history of shots at both sides
+        """
+        return models.BattleShip.getByUrlKey(req.url_key).getHistory()
+
     @endpoints.method(request_message=containers.ShootReq,
                       response_message=msgs.ShootResp,
                       path='game/{url_key}',
@@ -104,6 +119,18 @@ class BattleShipApi(remote.Service):
             msgs.GameFormRespColl: a list of games detail
         """
         return models.BattleShip.getUserGames(req.user_name)
+
+    @endpoints.method(response_message=msgs.UserRanks,
+                      path='user/all/rank',
+                      name='get_all_users_ranks',
+                      http_method='GET')
+    def get_user_rankings(self, req):
+        """
+            return the ranking of all players
+        Returns:
+            msgs.UserRanks: list of user ranks
+        """
+        return msgs.UserRanks(ranks=[user.getRank() for user in models.User.query().fetch()])
 
     @endpoints.method(request_message=containers.GetGameReq,
                       response_message=msgs.StringMessage,

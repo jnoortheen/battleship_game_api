@@ -5,6 +5,7 @@ from google.appengine.ext import ndb
 import utils
 from . import User
 import endpoints
+import msgs
 
 
 class Grid(ndb.Model):
@@ -28,6 +29,7 @@ class Grid(ndb.Model):
 
     # to hold a list of shots made by the opponent
     shots = ndb.StringProperty(indexed=False, default="")  # type:str
+    shotResps = ndb.TextProperty(indexed=False, default="")  # type:str
 
     @classmethod
     def create(cls, user_name, carrier, battleship, cruiser, destroyer1, destroyer2, submarine1, submarine2):
@@ -82,5 +84,15 @@ class Grid(ndb.Model):
         resp = utils.reflectAShot(self.fleets, self.shots, shot)
         # record the new shot
         self.shots += shot
+        self.shotResps += resp + "|"
         self.put()
         return resp
+
+    def toForm(self):
+        return msgs.GridInfo(user=self.user.get().name, grid=self.fleets)
+
+    def getHistory(self):
+        shots = [self.shots[i:i + 2] for i in range(0, len(self.shots), 2)]
+        resps = self.shotResps.split("|")
+        return msgs.GridHistory(user=self.user.get().name,
+                                shots=[msgs.GridShot(shot=shot[0], msg=shot[1]) for shot in zip(shots, resps)])

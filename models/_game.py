@@ -100,13 +100,20 @@ class BattleShip(ndb.Model):
         Returns:
            GameFormResp: string repr of both side of fleets
         """
-        game = msgs.GameFormResp(left=self.leftGrid.get().fleets,
-                                 right=self.rightGrid.get().fleets,
-                                 urlsafe_key=self.key.urlsafe(),
-                                 game_over=self.gameOver)
+        game = msgs.GameFormResp(
+            left=self.leftGrid.get().toForm(),
+            right=self.rightGrid.get().toForm(),
+            urlsafe_key=self.key.urlsafe(),
+            game_over=self.gameOver)
         if self.gameOver:
             game.winner = self.winner.get().name
+
         return game
+
+    def getHistory(self):
+        """return the list of shots made by each side of players with the respective messages"""
+        return msgs.GameHistory(left=self.leftGrid.get().getHistory(),
+                                right=self.rightGrid.get().getHistory())
 
     def shoot(self, side, shot):
         """

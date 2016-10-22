@@ -84,17 +84,54 @@ class CreateGame(messages.Message):
     right = messages.MessageField(Grid, 2, required=True)  # type: Grid
 
 
+class GridInfo(messages.Message):
+    # user name
+    user = messages.StringField(1, required=True)
+    # list of ships position like
+    # B0B1B2B3B4|F0F1F2F3|I0I1I2|J0J1|J8J9|H4|C5 representing
+    # (carrier, battleship, cruiser, destroyer, destroyers, submarine, submarine)
+    grid = messages.StringField(2, required=True)
+
+
+class GridShot(messages.Message):
+    """used to show grid history of shots"""
+    # a square point notation
+    shot = messages.StringField(1, required=True)
+    # response message for that shot
+    msg = messages.StringField(2, required=True)
+
+
+class GridHistory(messages.Message):
+    # user name
+    user = messages.StringField(1, required=True)
+    shots = messages.MessageField(GridShot, 2, required=True, repeated=True)
+
+
+class GameHistory(messages.Message):
+    left = messages.MessageField(GridHistory, 1, required=True)
+    right = messages.MessageField(GridHistory, 2, required=True)
+
+
 class GameFormResp(messages.Message):
     """resultant message shown after creating a battleship game record"""
     urlsafe_key = messages.StringField(1, required=True)
     game_over = messages.BooleanField(2, required=True)
-    # list of ships position like
-    # B0B1B2B3B4|F0F1F2F3|I0I1I2|J0J1|J8J9|H4|C5 representing
-    # (carrier, battleship, cruiser, destroyer, destroyers, submarine, submarine)
-    left = messages.StringField(3, required=True)
-    right = messages.StringField(4, required=True)
+
+    left = messages.MessageField(GridInfo, 3, required=True)
+    right = messages.MessageField(GridInfo, 4, required=True)
     # if the game is over return the winner name
     winner = messages.StringField(5)
+
+
+class UserRank(messages.Message):
+    # user name
+    name = messages.StringField(1, required=True)
+    matches = messages.IntegerField(2, required=True)
+    wins = messages.IntegerField(3, required=True)
+
+
+class UserRanks(messages.Message):
+    ranks = messages.MessageField(UserRank, 1, repeated=True)
 
 
 class GameFormRespColl(messages.Message):

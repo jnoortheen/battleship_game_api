@@ -12,7 +12,6 @@ from google.appengine.ext import ndb
 
 
 class TestBattleShipApi(unittest.TestCase):
-
     def setUp(self):
         self.tb = testbed.Testbed()
         self.tb.activate()
@@ -69,8 +68,8 @@ class TestBattleShipApi(unittest.TestCase):
                               submarine2=submarine2)
         req = api.BattleShipApi.new_game.remote.request_type(right=rightGrid, left=leftGrid)
         resp = btApi.new_game(req)
-        assert resp.left == 'A0A1A2A3A4|B0B1B2B3|C0C1C2|D0D1|E0E1|F0|G0'
-        assert resp.right == 'A0A1A2A3A4|B0B1B2B3|C0C1C2|D0D1|E0E1|F0|G0'
+        assert resp.left.grid == 'A0A1A2A3A4|B0B1B2B3|C0C1C2|D0D1|E0E1|F0|G0'
+        assert resp.right.grid == 'A0A1A2A3A4|B0B1B2B3|C0C1C2|D0D1|E0E1|F0|G0'
         return resp
 
     def testApiGetGame(self):
@@ -78,18 +77,32 @@ class TestBattleShipApi(unittest.TestCase):
         btApi = api.BattleShipApi()
         req = api.BattleShipApi.get_game.remote.request_type(url_key=aGame.urlsafe_key)
         resp = btApi.get_game(req)
-        assert resp.left == 'A0A1A2A3A4|B0B1B2B3|C0C1C2|D0D1|E0E1|F0|G0'
-        assert resp.right == 'A0A1A2A3A4|B0B1B2B3|C0C1C2|D0D1|E0E1|F0|G0'
+        assert resp.left.grid == 'A0A1A2A3A4|B0B1B2B3|C0C1C2|D0D1|E0E1|F0|G0'
+        assert resp.right.grid == 'A0A1A2A3A4|B0B1B2B3|C0C1C2|D0D1|E0E1|F0|G0'
 
     def testApiGetUserGames(self):
         self.testApiCreateGame()
         self.testApiCreateGame(False)
         self.testApiCreateGame(False)
         btApi = api.BattleShipApi()
+        req = api.BattleShipApi.get_user_games.remote.request_type(user_name='user_3')
+        resp = btApi.get_user_games(req)
+        assert len(resp.games) == 0
         req = api.BattleShipApi.get_user_games.remote.request_type(user_name='user_1')
         resp = btApi.get_user_games(req)
-        print resp
+        assert len(resp.games) == 3
+        req = api.BattleShipApi.get_user_games.remote.request_type(user_name='user_2')
+        resp = btApi.get_user_games(req)
+        assert len(resp.games) == 3
 
+    def testApiGetUserRanks(self):
+        self.testApiCreateGame()
+        self.testApiCreateGame(False)
+        self.testApiCreateGame(False)
+        btApi = api.BattleShipApi()
+        req = api.BattleShipApi.get_user_rankings.remote.request_type()
+        resp = btApi.get_user_rankings(req)
+        print resp
     def testApiShoot(self):
         aGame = self.testApiCreateGame()
         btApi = api.BattleShipApi()
