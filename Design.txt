@@ -1,0 +1,19 @@
+1. What additional properties did you add to your models and why?
+    There are three model classes defined to implement this game.
+    - models.BattleShip:
+        *   individual Grid details are made to be in a separate table and reference to those tables will be stored in this table.
+        *   So that each game model will have two grid references and the grids will have player details.
+        *   In addition to the player references in the grid model, the game model itself has references to players as left_player and right_player
+        *   To track the last record updated time, it has a last_updated property defined. Based on that field mails will be sent to the user if the game is not being active.
+        *   Additional methods on the model is implemented to get game related information in elegan
+    - models.Grid:
+        *   It virtually represents a 10x10 grid
+        *   ship positions are stored as in fleets property as a string field. Each ship positions are separated by a pipe symbol.
+        *   The positions are denoted as string of size 2 where first letter denotes the point in the Y-Axis and second denoting X-Axis.
+        *   Reference to the user is stored in the player property field.
+    - models.User:
+        *   this simply contains the name and email id of the user.
+        *   additionally there are class methods implemented for getting user specific game details.
+
+2. What were some of the trade-offs or struggles you faced when implementing the new game logic?
+   The main struggle comes in how to represent the BattleShip Classic game using database tables. As there is need to maintain two different grids for each of the player and store the each of the shots made by the user. This is solved by using a separate model for grid , and it is used for a game record.
