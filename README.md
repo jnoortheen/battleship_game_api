@@ -22,7 +22,7 @@ Before play begins, each player must secretly arrange their ships on the lower g
 1. Players must announce to their opponent each time one of their ships is sunk. (Example: "You sunk my Battleship!") 
 1. The winner is the first player to sink their opponent's ships before all of their own are sunk.
 ###Fleet:
-For the number of ships and their size format look at ![battleship grid and fleet](./battleship.svg)
+For the number of ships and their size format look at ![battleship grid and fleet](./img/battleship.svg)
 
 If you feel difficult to understand how the game works try this 
 [Sample Game online](http://www.knowledgeadventure.com/games/battleship/)

@@ -20,6 +20,10 @@ class BattleShip(ndb.Model):
     gameOver = ndb.BooleanProperty(default=False)
     cancelled = ndb.BooleanProperty(default=False)
 
+    # to maintain record update timings
+    time_created = ndb.DateTimeProperty(auto_now_add=True)
+    time_updated = ndb.DateTimeProperty(auto_now=True)
+
     @classmethod
     def getByUrlKey(cls, urlKey):
         """
@@ -88,6 +92,15 @@ class BattleShip(ndb.Model):
 
     @classmethod
     def getUserGames(cls, user_name):
+        """
+            returns all incomplete games of the user
+        Args:
+            user_name (str):
+
+        Returns:
+            msgs.GameFormRespColl: list of game forms
+
+        """
         user = User.get_by_name(user_name)
         games = cls.query(cls.gameOver == False, cls.cancelled == False,
                           ndb.OR(cls.leftPlayer == user.key, cls.rightPlayer == user.key)).fetch()
