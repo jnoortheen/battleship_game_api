@@ -12,6 +12,13 @@ handlers:
   static_files: favicon.ico
   upload: favicon\.ico
 
+- url: /crons/send_reminder
+  script: main.app
+  login: admin
+
 libraries:
 - name: endpoints
   version: 1.0
+
+- name: webapp2
+  version: "2.5.2"

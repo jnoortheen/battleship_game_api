@@ -3,12 +3,11 @@ a set of methods to test endpoints APIs.
 """
 
 import api
-import containers
 import msgs
 import unittest
 import models
-from google.appengine.ext import testbed
-from google.appengine.ext import ndb
+from google.appengine.ext import testbed, ndb
+from google.appengine.api import mail
 
 
 class TestBattleShipApi(unittest.TestCase):
@@ -17,7 +16,9 @@ class TestBattleShipApi(unittest.TestCase):
         self.tb.activate()
         self.tb.init_datastore_v3_stub()
         self.tb.init_memcache_stub()
+        self.tb.init_mail_stub()
         ndb.get_context().clear_cache()
+        self.mailStub = self.tb.get_stub(testbed.MAIL_SERVICE_NAME)
 
     def tearDown(self):
         self.tb.deactivate()
@@ -163,3 +164,8 @@ class TestBattleShipApi(unittest.TestCase):
         req = api.BattleShipApi.get_game_history.remote.request_type(url_key=aGame.urlsafe_key)
         resp = btApi.get_game_history(req)
         print resp
+
+    def testEmail(self):
+        mail.send_mail(to="jnoortheen@gmail.com", subject="test", body="testbody", sender="jnoortheen@gmail.com")
+        messages = self.mailStub.get_sent_messages(to='jnoortheen@gmail.com')
+        print messages

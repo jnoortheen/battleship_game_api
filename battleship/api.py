@@ -10,10 +10,9 @@ from protorpc import remote
 import models
 import msgs
 import containers
-import logging
 
 
-@endpoints.api("battle_ship_classic", version='v1')
+@endpoints.api("battleship_classic", version='v1')
 class BattleShipApi(remote.Service):
     """
         set of classic battleship game backend APIs
