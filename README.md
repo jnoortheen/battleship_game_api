@@ -98,5 +98,5 @@ return the user matches and wins stats
 1. create a new Game with these user records.
 1. in turn each of the user has to make a guess(position as A1, B5...) and in response they will get a notification of  `'HIT' / 'MISS' / 'SUNK' / 'SUNK ALL'`
 
-###GAE Endpoint
-https://battleship-147317.appspot.com
+###Explore API:
+go to https://battleship-147317.appspot.com/_ah/api/explorer 
