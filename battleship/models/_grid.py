@@ -59,11 +59,11 @@ class Grid(ndb.Model):
 
         user = User.get_by_name(user_name)
 
-        fleet = [utils.getACarrier(carrier),
-                 utils.getABattleShip(battleship),
-                 utils.getACruiser(cruiser),
-                 utils.getADestroyer(destroyer1), utils.getADestroyer(destroyer2),
-                 utils.getASubmarine(submarine1), utils.getASubmarine(submarine2)]
+        fleet = [utils.getAShip(carrier, 5),
+                 utils.getAShip(battleship, 4),
+                 utils.getAShip(cruiser, 3),
+                 utils.getAShip(destroyer1, 2), utils.getAShip(destroyer2, 2),
+                 utils.getAShip(submarine1, 1), utils.getAShip(submarine2, 1)]
         # check for any overlap in the ship positions
         if len(utils.getShipsFromNotation("".join(fleet))[0]) != 18:
             raise endpoints.ConflictException("Ships position on the grid must not overlap")

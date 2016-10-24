@@ -3,27 +3,6 @@ import msgs
 yAxis = "ABCDEFGHIJ"
 
 
-def getACarrier(notation):
-    """return a aircraft carrier"""
-    return getAShip(notation, 5)
-
-
-def getABattleShip(notation):
-    return getAShip(notation, 4)
-
-
-def getACruiser(notation):
-    return getAShip(notation, 3)
-
-
-def getADestroyer(notation):
-    return getAShip(notation, 2)
-
-
-def getASubmarine(notation):
-    return getAShip(notation, 1)
-
-
 def getAShip(notation, length):
     """
         return a ship notation
