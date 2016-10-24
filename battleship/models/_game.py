@@ -63,6 +63,10 @@ class BattleShip(ndb.Model):
             GameFormResp: return newly inserted record's form
         """
 
+        # checking user name exists in db. The checks are placed in their models
+        lPlayer = User.get_by_name(leftGridArgs.user_name)
+        rPlayer = User.get_by_name(rightGridArgs.user_name)
+
         if leftGridArgs.user_name == rightGridArgs.user_name:
             raise endpoints.BadRequestException("Come on! it is a two player game. Users must be different.")
 
@@ -85,8 +89,8 @@ class BattleShip(ndb.Model):
                                 utils.shipPtToNotation(rightGridArgs.submarine2))
 
         game = BattleShip(leftGrid=leftGrid.key, rightGrid=rightGrid.key,
-                          leftPlayer=User.get_by_name(leftGridArgs.user_name).key,
-                          rightPlayer=User.get_by_name(rightGridArgs.user_name).key)
+                          leftPlayer=lPlayer.key,
+                          rightPlayer=rPlayer.key)
         game.put()
         return game.toForm()
 

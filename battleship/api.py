@@ -70,6 +70,7 @@ class BattleShipApi(remote.Service):
         Returns:
             msgs.GameFormResp: Both side of fleet positions denoted as string
         """
+        # game url is checked in its model. The method is placed in the model as this is going to be done repeatedly.
         return models.BattleShip.getByUrlKey(req.url_key).toForm()
 
     @endpoints.method(request_message=containers.GetGameReq,
