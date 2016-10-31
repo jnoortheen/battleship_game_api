@@ -1,5 +1,5 @@
 # Battleship
-A two player guessing game implemented using Google App Engine's Endpoints API.
+A two player guessing game implemented using Google App Engine's Endpoints API. This can be utilised as backend to the BattleShip Classic game.
 
 
 ## Game Description
