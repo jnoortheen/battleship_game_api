@@ -1,22 +1,25 @@
 # Battleship
 A two player guessing game implemented using Google App Engine's Endpoints API. This can be utilised as backend to the BattleShip Classic game.
 
+## Tech-Stack
+1. Python
+2. [Google Cloud Endpoints](https://cloud.google.com/endpoints/)
 
 ## Game Description
 Here is the description of classic battleship game. 
 Refer: [wikia]: http://battleship.wikia.com/wiki/Battleship_(game)
 
-###Contents:
+### Contents:
 Two game boards, each one with two grids, five ships, and a number of hit and miss markers. 
 
-###Goal:
+### Goal:
 To sink all of your opponent's ships by correctly guessing their locations before your opponent sinks all of yours. 
 
-###Setup:
+### Setup:
 Players receive a board with two grids, one of each type of ship, and a sufficient number of hit and miss markers. 
 Before play begins, each player must secretly arrange their ships on the lower grid. 
 
-###Rules:
+### Rules:
 1. Ships must be placed horizontally or vertically (never diagonally) across grid spaces, and can't hang over the outer grid boundary. 
 1. Ships may not be placed next to each other, nor are ships allowed to share a space with another ship. 
 1. Players must arrange ships and record the shots made by their opponent on the lower grid, while recording their own shots on the upper grid. 
@@ -26,7 +29,7 @@ Before play begins, each player must secretly arrange their ships on the lower g
 1. Players must announce to their opponent each time one of their ships is sunk. (Example: "You sunk my Battleship!") 
 1. The winner is the first player to sink their opponent's ships before all of their own are sunk.
 
-###Fleet:
+### Fleet:
 For the number of ships and their size format look at ![battleship grid and fleet](https://github.com/jnoortheen/battleship_game_api/blob/master/img/battleship.png)
 
 If you feel difficult to understand how the game works try this 
